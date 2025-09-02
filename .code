@@ -1,0 +1,42 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileProcessor {
+
+    public static void processFile(String inputFile, String outputFile) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Example processing: Convert line to uppercase
+                String processedLine = line.toUpperCase();
+                writer.write(processedLine);
+                writer.newLine(); // Add a new line after each processed line
+            }
+            System.out.println("File processing complete: " + inputFile + " -> " + outputFile);
+
+        } catch (IOException e) {
+            System.err.println("Error during file processing: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        // Create a dummy input file for demonstration
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("input.txt"))) {
+            writer.write("This is line one.");
+            writer.newLine();
+            writer.write("This is line two.");
+            writer.newLine();
+            writer.write("Another line.");
+        } catch (IOException e) {
+            System.err.println("Error creating input file: " + e.getMessage());
+        }
+
+        processFile("input.txt", "output.txt");
+    }
+}
